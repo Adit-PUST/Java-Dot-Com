@@ -1,0 +1,806 @@
+1.1 Identifier.....
+
+
+#include<string.h>
+#include<ctype.h>
+#include<stdio.h>
+void keyword(char str[10])
+{
+    if(strcmp("for",str)==0||strcmp("while",str)==0||strcmp("do",str)==0||strcmp("int",str)==0||strcmp("float",str)==0||strcmp("char",str)==0||strcmp("double",str)==0||strcmp("static",str)==0||strcmp("switch",str)==0||strcmp("case",str)==0||strcmp("if",str)==0||strcmp("else",str)==0||strcmp("else if",str)==0)
+    {
+        //printf("\n%s is a keyword",str);
+    }
+    else
+        printf("\n%s is an identifier",str);
+}
+int main()
+{
+    FILE *f1,*f2,*f3,*f4;
+    char c,str[10],st1[10];
+    int num[100],lineno=0,tokenvalue=0,i=0,j=0,k=0;
+    printf("\nEnter the c program");/*gets(st1);*/
+    f1=fopen("input","w");
+    while((c=getchar())!=EOF)
+        putc(c,f1);
+    fclose(f1);
+    f1=fopen("input","r");
+    f2=fopen("identifier","w");
+    f3=fopen("specialchar","w");
+    f4=fopen("keyword","w");
+    while((c=getc(f1))!=EOF)
+    {
+        if(isdigit(c))
+        {
+            tokenvalue=c-'0';
+            c=getc(f1);
+            while(isdigit(c))
+            {
+                tokenvalue*=10+c-'0';
+                c=getc(f1);
+            }
+            num[i++]=tokenvalue;
+            ungetc(c,f1);
+        }
+        else if(isalpha(c))
+        {
+            putc(c,f2);
+            c=getc(f1);
+            while(isdigit(c)||isalpha(c)||c=='_'||c=='$')
+            {
+                putc(c,f2);
+                c=getc(f1);
+            }
+            putc(' ',f2);
+            ungetc(c,f1);
+        }
+        else if(c==' '||c=='\t')
+            printf(" ");
+        else
+            if(c=='\n')
+            {
+                //lineno++;
+                continue;
+            }
+            else
+                putc(c,f3);
+    }
+    fclose(f2);
+    fclose(f3);
+    fclose(f4);
+    fclose(f1);
+    f2=fopen("identifier","r");
+    k=0;
+    printf("The identifiers are:");
+    while((c=getc(f2))!=EOF)
+    {
+        if(c!=' ')
+            str[k++]=c;
+        else
+        {
+            str[k]='\0';
+            keyword(str);
+            k=0;
+        }
+    }
+    fclose(f2);
+    return 0;
+}
+
+
+
+1.2 constants.....
+
+
+#include<string.h>
+#include<ctype.h>
+#include<stdio.h>
+int main()
+{
+    FILE *f1,*f2,*f3,*f4;
+    char c;
+    int num[100],tokenvalue=0,i=0,j=0,k=0;
+    printf("Enter the c program:\n");
+    f1=fopen("input","w");
+    while((c=getchar())!=EOF)
+        putc(c,f1);
+    fclose(f1);
+    f1=fopen("input","r");
+    f2=fopen("identifier","w");
+    f3=fopen("specialchar","w");
+    f4=fopen("keyword","w");
+    while((c=getc(f1))!=EOF)
+    {
+        if(isdigit(c))
+        {
+            tokenvalue=c-'0';
+            c=getc(f1);
+            while(isdigit(c))
+            {
+                tokenvalue*=10+c-'0';
+                c=getc(f1);
+            }
+            num[i++]=tokenvalue;
+            ungetc(c,f1);
+        }
+        else if(isalpha(c))
+        {
+            putc(c,f2);
+            c=getc(f1);
+            while(isdigit(c)||isalpha(c)||c=='_'||c=='$')
+            {
+                putc(c,f2);
+                c=getc(f1);
+            }
+            putc(' ',f2);
+            ungetc(c,f1);
+        }
+        else if(c==' '||c=='\t')
+            printf(" ");
+        else
+            if(c=='\n')
+                continue;
+            else
+                putc(c,f3);
+    }
+    fclose(f2);
+    fclose(f3);
+    fclose(f4);
+    fclose(f1);
+    printf("\nThe constants in the program are\n");
+    for(j=0;j<i;j++)
+        printf("%d  ",num[j]);
+    printf("\n");
+    return 0;
+}
+
+
+1.3 Write a program to recognize keywords and identifiers.....
+
+
+
+#include<string.h>
+#include<ctype.h>
+#include<stdio.h>
+void keyword(char str[10])
+{
+    if(strcmp("for",str)==0||strcmp("while",str)==0||strcmp("do",str)==0||strcmp("int",str)==0||strcmp("float",str)==0||strcmp("char",str)==0||strcmp("double",str)==0||strcmp("static",str)==0||strcmp("switch",str)==0||strcmp("case",str)==0||strcmp("if",str)==0||strcmp("else",str)==0||strcmp("else if",str)==0)
+        printf("\n%s is a keyword",str);
+    else
+        printf("\n%s is an identifier",str);
+}
+int main()
+{
+    FILE *f1,*f2,*f3;
+    char c,str[10],st1[10];
+    int num[100],lineno=0,tokenvalue=0,i=0,j=0,k=0;
+    printf("\nEnter the c program");/*gets(st1);*/
+    f1=fopen("input","w");
+    while((c=getchar())!=EOF)
+        putc(c,f1);
+    fclose(f1);
+    f1=fopen("input","r");
+    f2=fopen("identifier","w");
+    f3=fopen("specialchar","w");
+    while((c=getc(f1))!=EOF)
+    {
+        if(isdigit(c))
+        {
+            tokenvalue=c-'0';
+            c=getc(f1);
+            while(isdigit(c))
+            {
+                tokenvalue*=10+c-'0';
+                c=getc(f1);
+            }
+            num[i++]=tokenvalue;
+            ungetc(c,f1);
+        }
+        else if(isalpha(c))
+        {
+            putc(c,f2);
+            c=getc(f1);
+            while(isdigit(c)||isalpha(c)||c=='_'||c=='$')
+            {
+                putc(c,f2);
+                c=getc(f1);
+            }
+            putc(' ',f2);
+            ungetc(c,f1);
+        }
+        else if(c==' '||c=='\t')
+            printf(" ");
+        else
+            if(c=='\n')
+                continue;
+            else
+                putc(c,f3);
+    }
+    fclose(f2);
+    fclose(f3);
+    fclose(f1);
+    f2=fopen("identifier","r");
+    k=0;
+    printf("The keywords and identifiers are:");
+    while((c=getc(f2))!=EOF)
+    {
+        if(c!=' ')
+            str[k++]=c;
+        else
+        {
+            str[k]='\0';
+            keyword(str);
+            k=0;
+        }
+    }
+    fclose(f2);
+    fclose(f3);
+    return 0;
+
+}
+
+
+1.4 ignore comments in the given input sorce program and find the number of line where the comments are written.....
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<int>v;
+string removeComments(string prgm)
+{
+    int n = prgm.length();
+    string res;
+
+    bool a = false;
+    bool b = false;
+    int cnt=1;
+
+    for (int i=0; i<n; i++)
+    {
+        if(prgm[i] == '\n')
+        {
+
+            cnt++;
+        }
+        if (a == true && prgm[i] == '\n')
+        {
+            a = false;
+        }
+
+        else if (b == true && prgm[i] == '*' && prgm[i+1] == '/')
+        {
+            b = false, i++;
+        }
+
+        else if (a || b)
+        {
+            continue;
+        }
+
+        else if (prgm[i] == '/' && prgm[i+1] == '/')
+        {
+            v.push_back(cnt);
+            a = true, i++;
+        }
+        else if (prgm[i] == '/' && prgm[i+1] == '*')
+        {
+            v.push_back(cnt);
+            b = true, i++;
+        }
+
+        else
+        {
+            res += prgm[i];
+        }
+    }
+    return res;
+}
+
+int main()
+{
+    string prgm = " /* Test program */ \n"
+                  " int main() \n"
+                  " {		 \n"
+                  "	 // variable declaration \n"
+                  "	 int a, b, c; \n"
+                  "	 /* This is a test \n"
+                  "		 multiline	 \n"
+                  "		 comment for \n"
+                  "		 testing */	 \n"
+                  "	 a = b + c;	 \n"
+                  " }		 \n";
+    cout << "Given Program \n";
+    cout << prgm << endl;
+    cout << " Modified Program ";
+    cout << removeComments(prgm);
+    for(auto l:v)
+    {
+        cout<<l<<endl;
+    }
+    return 0;
+}
+
+
+2.1 Write a program to recognize comments and how many letters are in the comments.....
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+    string com;
+    int i=2, a=0;
+    cout<<"ENter comment"<<endl;
+
+    getline(cin, com, '$');
+    int len = com.length();
+
+    if(com[0]=='/')
+    {
+        if(com[1]=='/')
+        {
+            cout<<"It is a comment"<<endl;
+            cout<<len-2;
+        }
+        else if(com[1]=='*')
+        {
+            for(i=2; i<=200; i++)
+            {
+                if(com[i]=='*' && com[i+1]=='/')
+                {
+                    cout<<"It is a comment"<<endl;
+                    cout<<len-4;
+                    a=1;
+                    break;
+                }
+                else
+                    continue;
+            }
+
+            if(a==0)
+            {
+                cout<<"It is not a comment"<<endl;
+            }
+        }
+        else
+            cout<<"It is not a comment"<<endl;
+    }
+    else
+        cout<<"It is not a comment"<<endl;
+    return 0;
+}
+
+
+
+2.2 Write a program to recognize the types of comments.....
+
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+    string com;
+    int i=2, a=0;
+    cout<<"ENter comment"<<endl;
+
+    getline(cin, com, '$');
+    int len = com.length();
+
+    if(com[0]=='/')
+    {
+        if(com[1]=='/')
+        {
+            cout<<"It is a single line comment"<<endl;
+
+        }
+        else if(com[1]=='*')
+        {
+            for(i=2; i<=200; i++)
+            {
+                if(com[i]=='*' && com[i+1]=='/')
+                {
+                    cout<<"It is a multiline comment"<<endl;
+                    a=1;
+                    break;
+                }
+                else
+                    continue;
+            }
+
+            if(a==0)
+            {
+                cout<<"It is not a comment"<<endl;
+            }
+        }
+        else
+            cout<<"It is not a comment"<<endl;
+    }
+    else
+        cout<<"It is not a comment"<<endl;
+    return 0;
+}
+
+
+2.3...1.4 er moto.....
+
+
+
+5. Symbol Table.....
+
+#include<bits/stdc++.h>
+using namespace std;
+#define CHAIN_LENGTH 20
+#define M 128
+struct symbol_info{
+    char *name;
+    char *classtype;
+    struct symbol_info *next;
+} *block[CHAIN_LENGTH];
+int cHash(char* name){
+    int idx = 0;
+    for(int i = 0; name[i]; ++i){
+        idx = idx + name[i];
+    }
+    return (idx % CHAIN_LENGTH);
+}
+void cInsert(char* name, char* classtype){
+    int pos = cHash(name);
+
+    if( block[pos] == NULL ){
+        block[pos] = new symbol_info();
+        block[pos]->name = name;
+        block[pos]->classtype = classtype;
+        block[pos]->next = NULL;
+    }
+    else{
+        symbol_info* newNode = new symbol_info();
+        newNode->name = name;
+        newNode->classtype = classtype;
+        symbol_info* nextNode = block[pos];
+        block[pos] = newNode;
+        newNode->next = nextNode;
+    }
+}
+bool cSearch(char* name, char* classtype){
+    int pos = cHash(name);
+    symbol_info* temp = block[pos];
+    while( temp != NULL ){
+        if( !strcmp( temp->name, name ) && !strcmp( temp->classtype, classtype ) ){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+void cDelete(char* name, char* classtype){
+    int pos = cHash(name);
+    symbol_info* temp = block[pos];
+    if(temp == NULL) return;
+    if( temp->next == NULL && !strcmp( temp->name, name ) && !strcmp( temp->classtype, classtype ) ){
+        block[pos] = NULL;
+    }
+    else if( !strcmp( temp->name, name ) && !strcmp( temp->classtype, classtype ) ){
+        block[pos] = temp->next;
+    }
+    else{
+
+        while( temp->next != NULL ){
+                if ( !strcmp( temp->next->name, name ) && !strcmp( temp->next->classtype, classtype ) ){
+                    printf("FOUND IT %s : %s\n", temp->name, temp->classtype );
+                    break;
+                }
+            temp = temp->next;
+        }
+        if( temp != NULL ){
+            symbol_info* found = temp->next;
+            temp->next = found->next;
+            delete(found);
+        }
+    }
+}
+void cUpdate(char* name, char* classtype, char* updatedClasstype){
+    int pos = cHash(name);
+    symbol_info* temp = block[pos];
+    while( temp != NULL ){
+        if( !strcmp( temp->name, name ) && !strcmp( temp->classtype, classtype ) ){
+            temp->classtype = updatedClasstype;
+            return;
+        }
+        temp = temp->next;
+    }
+}
+void showSymbolTable(){
+    for(int i = 0; i < CHAIN_LENGTH; ++i){
+        printf("%d:", i);
+        symbol_info* temp = block[i];
+        while( temp != NULL ){
+            printf("->[%s|%s]", temp->name, temp->classtype);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+int showMenu(){
+    cout << "Menu:\n";
+    string message = "Enter 1 to insert(name, class type)\n"
+                     "Enter 2 to update(name, class type, new class type)\n"
+                     "Enter 3 to search(name, class type)\n"
+                     "Enter 4 to delete(name, class type)\n"
+                     "Enter 5 to show the symbol table\n";
+    cout << message << "\n";
+    cout << "User Choice: ";
+    int choice;
+    scanf("%d", &choice);
+    return choice;
+}
+int main(){
+    int choice = showMenu();
+    while( 1 ){
+        char *name = new char[M];
+        char *classtype = new char[M];
+        switch(choice){
+        case 1:
+            {
+                cout << "Insert Selected:\n";
+                scanf("%s%s", name, classtype);
+                int pos = strlen(name) - 1;
+                if( name[ pos ] == ',' ){
+                    name[ pos ] = '\0';
+                }
+                printf("%s %s\n", name, classtype);
+                printf("%d\n", cHash(name) );
+                cInsert(name, classtype);
+            }
+            break;
+        case 2:
+            {
+                cout << "Update Selected:\n";
+                char* updatedClasstype = new char[M];
+                scanf("%s%s%s", name, classtype, updatedClasstype);
+                int pos = strlen(name) - 1;
+                if( name[ pos ] == ',' ){
+                    name[ pos ] = '\0';
+                }
+                pos = strlen(classtype) - 1;
+                if( classtype[ pos ] == ',' ){
+                    classtype[ pos ] = '\0';
+                }
+
+                printf("%s %s\n", name, classtype);
+                printf("%d\n", cHash(name) );
+                cUpdate(name, classtype, updatedClasstype);
+            }
+            break;
+        case 3:
+            {
+                cout << "Search Selected:\n";
+                scanf("%s%s", name, classtype);
+                int pos = strlen(name) - 1;
+                if( name[ pos ] == ',' ){
+                    name[ pos ] = '\0';
+                }
+                printf("%s %s\n", name, classtype);
+                printf("%d\n", cHash(name) );
+
+                if( cSearch(name, classtype) ){
+                    printf("FOUND\n");
+                }else{
+                    printf("NOT FOUND\n");
+                }
+            }
+            break;
+        case 4:
+            {
+                cout << "Delete Selected:\n";
+                scanf("%s%s", name, classtype);
+                int pos = strlen(name) - 1;
+                if( name[ pos ] == ',' ){
+                    name[ pos ] = '\0';
+                }
+                printf("%s %s\n", name, classtype);
+                printf("%d\n", cHash(name) );
+                cDelete(name, classtype);
+            }
+            break;
+        case 5:
+            cout << "Show Selected\n";
+            showSymbolTable();
+            break;
+        default:
+            return 0;
+        };
+        choice = showMenu();
+    }
+return 0;
+}
+
+
+6. Detect syntax errors ......
+
+#include<bits/stdc++.h>
+using namespace std;
+vector<string>token_list;
+string str;
+int balance=0;
+
+bool is_separator(char ch){
+    string str = " ,;:+-*/%=><!&|";
+    string tmp;
+    for(int i=0;i<str.size();i++){
+        if(ch==str[i]){
+            return true;
+        }
+    }return false;
+}
+bool is_vartype(string s){
+    vector<string> keyword={"char","double","float","int","long", "short","signed","unsigned"};
+    auto f = find(keyword.begin(),keyword.end(),s);
+    if(f==keyword.end()){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+bool check(){
+    vector<string> v1;
+    set<string> v2;
+    for(int i=0; i<token_list.size(); i++){
+        if(is_vartype(token_list[i])&&!is_vartype(token_list[i+1])){
+            v1.push_back(token_list[i+1]);
+            v2.insert(token_list[i+1]);
+        }
+    }
+    if(v1.size()==v2.size()){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void count_paranthesis(char a){
+    if(a=='('||a=='{'||a=='['){
+        balance++;
+    }
+    else{
+        balance--;
+    }
+}
+
+void tokenize(){
+    string token="";
+    for(char i:str){
+        if(is_separator(i)||i=='\n'){
+            token_list.push_back(token);
+            token="";
+        }
+        else if(i=='('||i=='{'||i==')'||i=='}'||i=='['||i==']'){
+            if(token!=""){
+                token_list.push_back(token);
+                token="";
+                count_paranthesis(i);
+            }
+        }
+        else{
+            token+=i;
+        }
+    }
+    token_list.push_back(token);
+}
+int main(){
+    do{
+        getline(cin,str);
+        if(str!="###") {
+            tokenize();
+        }
+    }
+    while(str!="###");
+
+
+    for(auto i:token_list){
+        cout<<i<<endl;
+    }
+
+    if(balance!=0){
+        cout<<"paranthesis mismatch"<<endl;
+    }
+    else{
+        cout<<"paranthesis ok"<<endl;
+    }
+    if(check()){
+        cout<<"no double declaration"<<endl;
+    }
+    else{
+        cout<<"double declaration"<<endl;
+    }
+}
+
+
+
+7. Intermediate Code Generation.......
+
+
+#include<stdio.h>
+#include<string.h>
+void pm();
+void plus();
+void div();
+int i,ch,j,l;
+char ex[10],ex1[10],exp1[10],ex2[10];
+int main()
+{
+    while(1){
+    printf("\n 1.Assignment\n 2.Arithmatic\n 3.exit\n ENTER THE CHOICE:");
+    scanf("%d",&ch);
+    switch(ch){
+        case 1:
+            printf("\n enter the expression with assignment operator:");
+            scanf("%s",ex1);
+            l=strlen(ex1);
+            ex2[0]='\0';
+            i=0;
+            while(ex1[i]!='=')
+            {
+                i++;
+            }
+            strncat(ex2,ex1,i);
+            strrev(ex1);
+            exp1[0]='\0';
+            strncat(exp1,ex1,l-(i+1));
+            strrev(exp1);
+            printf("3 address code:\n temp=%s \n %s=temp\n",exp1,ex2);
+        break;
+        case 2:
+            printf("\n enter the expression with arithmatic operator:");
+            scanf("%s",ex);
+            strcpy(ex1,ex);
+            l=strlen(ex1);
+            exp1[0]='\0';
+            for(i=0;i<l;i++)
+            {
+                if(ex1[i]=='+'||ex1[i]=='-')
+                {
+                    if(ex1[i+2]=='/'||ex1[i+2]=='*')
+                    {
+                        pm();
+                        break;
+                    }
+                    else
+                    {
+                        plus();
+                        break;
+                    }
+                }
+                else if(ex1[i]=='/'||ex1[i]=='*')
+                {
+                    div();
+                    break;
+                }
+            }
+            break;
+            case 3:
+                break;
+        }
+    }
+}
+void pm()
+{
+    strrev(exp1);
+    j=l-i-1;
+    strncat(exp1,ex1,j);
+    strrev(exp1);
+    printf("3 address code:\n temp=%s\n temp1=%c%ctemp\n",exp1,ex1[j+2],ex1[j]);
+}
+void div()
+{
+    strncat(exp1,ex1,i+2);
+    printf("3 address code:\n temp=%s\ntemp1=temp%c%c\n",exp1,ex1[l+2],ex1[i+3]);
+}
+void plus()
+{
+    strncat(exp1,ex1,i+2);
+    printf("3 address code:\n temp=%s\ntemp1=temp%c%c\n",exp1,ex1[l+2],ex1[i+3]);
+}
+
